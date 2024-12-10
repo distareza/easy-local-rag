@@ -12,6 +12,9 @@ YELLOW = '\033[93m'
 NEON_GREEN = '\033[92m'
 RESET_COLOR = '\033[0m'
 
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3")
+
 # Function to open a file and return its contents as a string
 def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
@@ -110,14 +113,14 @@ def ollama_chat(user_input, system_message, vault_embeddings, vault_content, oll
 # Parse command-line arguments
 print(NEON_GREEN + "Parsing command-line arguments..." + RESET_COLOR)
 parser = argparse.ArgumentParser(description="Ollama Chat")
-parser.add_argument("--model", default="llama3", help="Ollama model to use (default: llama3)")
+parser.add_argument("--model", default=OLLAMA_MODEL, help="Ollama model to use (default: llama3)")
 args = parser.parse_args()
 
 # Configuration for the Ollama API client
 print(NEON_GREEN + "Initializing Ollama API client..." + RESET_COLOR)
 client = OpenAI(
-    base_url='http://localhost:11434/v1',
-    api_key='llama3'
+    base_url=f'{OLLAMA_HOST}/v1',
+    api_key=OLLAMA_MODEL
 )
 
 # Load the vault content

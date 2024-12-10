@@ -45,3 +45,50 @@ RAG is a way to enhance the capabilities of LLMs by combining their powerful lan
 
 ### What is Ollama?
 Ollama is an open-source platform that simplifies the process of running powerful LLMs locally on your own machine, giving users more control and flexibility in their AI projects. https://www.ollama.com
+
+### run on Docker
+to run on Linux or WLS env only
+
+```
+docker run -it --name simple_rag -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix python:3.11-slim-bullseye bash
+
+apt-get update
+apt-get install wget curl  net-tools iputils-ping vim git -y
+apt upgrade -y
+apt-get install software-properties-common build-essential -y
+apt-get install -y tk python3-tk
+
+mkdir /app && cd /app
+git clone https://github.com/distareza/easy-local-rag.git .
+pip install -r requirements.txt
+```
+
+### Download resource
+
+```sh
+ wget https://kvongcmehsanalibrary.wordpress.com/wp-content/uploads/2021/07/harrypotter.pdf  
+ wget https://dl.dropboxusercontent.com/sh/d6plg2q4oydvpcs/AABz5YeQZkZUyGqmgNDZgieTa/Archivos%20Infobooks%20ING/Temas%20%28Continuaci%C3%B3n%29/0132022%20Novelas%20para%20Ni%C3%B1os/1.%20Alice%27s%20Adventures%20in%20Wonderland%20Author%20Lewis%20Carroll.pdf?dl=1 -O AliceAdventureInWonderland.pdf  
+```
+
+ Change OLLAMA_HOST and adjust to your need when running as docker container
+ export OLLAMA_HOST=http://172.17.0.2:11434
+
+ example /root/.bashrc
+ ```sh
+ export OLLAMA_HOST=http://172.17.0.2:11434
+cd /app
+rm -f vault.txt
+
+clear
+echo "you need to run this container on Linux or WLS environment"
+echo "check OLLAMA ${OLLAMA_HOST} : `curl -s ${OLLAMA_HOST}`"
+echo
+echo "to start upload your file use following command : "
+echo "   python upload.py"
+alias upload="cd /app && python upload.py"
+
+echo
+echo "start question your question : "
+echo "   python localrag.py"
+alias localrag="cd /app && python localrag.py"
+```
